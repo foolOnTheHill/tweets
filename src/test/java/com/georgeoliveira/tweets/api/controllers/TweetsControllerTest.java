@@ -6,8 +6,8 @@ import static org.mockito.Mockito.when;
 
 import com.georgeoliveira.tweets.api.dtos.PostTweetRequestDto;
 import com.georgeoliveira.tweets.api.services.TweetsService;
-import com.georgeoliveira.tweets.common.fixtures.TweetFixture;
 import com.georgeoliveira.tweets.common.tweets.dtos.TweetDto;
+import com.georgeoliveira.tweets.common.tweets.fixtures.TweetFixture;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.georgeoliveira.tweets.common.tweets.mappers;
 
-import com.georgeoliveira.tweets.common.fixtures.TweetFixture;
 import com.georgeoliveira.tweets.common.tweets.dtos.TweetDto;
+import com.georgeoliveira.tweets.common.tweets.fixtures.TweetFixture;
 import com.georgeoliveira.tweets.common.tweets.models.Tweet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

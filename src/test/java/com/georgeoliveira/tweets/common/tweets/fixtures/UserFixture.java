@@ -1,4 +1,4 @@
-package com.georgeoliveira.tweets.common.fixtures;
+package com.georgeoliveira.tweets.common.tweets.fixtures;
 
 import com.georgeoliveira.tweets.common.tweets.models.User;
 

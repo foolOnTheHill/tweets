@@ -1,5 +1,6 @@
-package com.georgeoliveira.tweets.common.fixtures;
+package com.georgeoliveira.tweets.common.tweets.fixtures;
 
+import com.georgeoliveira.campaigns.proto.TweetProtobuf;
 import com.georgeoliveira.tweets.api.dtos.PostTweetRequestDto;
 import com.georgeoliveira.tweets.common.tweets.dtos.TweetDto;
 import com.georgeoliveira.tweets.common.tweets.models.Tweet;
@@ -36,6 +37,15 @@ public class TweetFixture {
         .senderId(UserFixture.DEFAULT_USER_ID)
         .text(DEFAULT_TEXT)
         .timestamp(DEFAULT_LOCAL_DATE_TIME.toInstant(ZoneOffset.UTC).toEpochMilli())
+        .build();
+  }
+
+  public static TweetProtobuf.Tweet getDefaultProtoInstance() {
+    return TweetProtobuf.Tweet.newBuilder()
+        .setId(DEFAULT_ID)
+        .setSenderId(UserFixture.DEFAULT_USER_ID)
+        .setText(DEFAULT_TEXT)
+        .setTimestamp(DEFAULT_LOCAL_DATE_TIME.toInstant(ZoneOffset.UTC).toEpochMilli())
         .build();
   }
 }

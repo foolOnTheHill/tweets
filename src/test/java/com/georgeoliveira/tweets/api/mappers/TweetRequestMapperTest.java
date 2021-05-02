@@ -1,8 +1,8 @@
 package com.georgeoliveira.tweets.api.mappers;
 
 import com.georgeoliveira.tweets.api.dtos.PostTweetRequestDto;
-import com.georgeoliveira.tweets.common.fixtures.TweetFixture;
 import com.georgeoliveira.tweets.common.tweets.dtos.TweetDto;
+import com.georgeoliveira.tweets.common.tweets.fixtures.TweetFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
