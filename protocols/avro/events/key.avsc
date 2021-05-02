@@ -1,0 +1,15 @@
+{
+    "type": "record",
+    "name": "Key",
+    "namespace": "com.georgeoliveira.events",
+    "fields": [
+      {
+        "name": "aggregate_id",
+        "type": [
+          "null",
+          "string"
+        ],
+        "default": null
+      }
+    ]
+  }

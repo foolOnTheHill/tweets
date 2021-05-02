@@ -1,0 +1,201 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.16.0"
+    }
+}
+
+plugins {
+    id "java"
+    id "com.google.protobuf" version "0.8.10"
+    id "com.github.sherter.google-java-format" version "0.8"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://packages.confluent.io/maven" }
+}
+
+ext {
+    protoVersion = "3.11.4"
+    micronautVersion = "2.2.0"
+    lombokVersion = "1.18.10"
+    jupiterVersion = "5.5.2"
+    grpcVersion = "1.26.0"
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "idea"
+    apply plugin: "com.github.sherter.google-java-format"
+    apply plugin: "com.google.protobuf"
+    apply plugin: "application"
+    apply plugin: "com.github.johnrengelman.shadow"
+    apply plugin: "com.commercehub.gradle.plugin.avro-base"
+
+    dependencies {
+        // Java
+        implementation "org.apache.commons:commons-lang3:3.7"
+        implementation "commons-io:commons-io:2.6"
+
+        compile group: "ch.qos.logback", name: "logback-classic", version: "1.2.3"
+        compile group: "ch.qos.logback", name: "logback-core", version: "1.2.3"
+        compile group: "org.projectlombok", name: "lombok", version: "1.18.2"
+        compile group: "com.google.guava", name: "guava", version: "28.1-jre"
+
+        implementation "org.projectlombok:lombok:$lombokVersion"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
+
+        testCompile group: "junit", name: "junit", version: "4.13"
+        testCompile group: "org.assertj", name: "assertj-core", version: "3.15.0"
+        testCompile group: "org.mockito", name: "mockito-core", version: "3.2.0"
+        testCompile group: "org.junit.jupiter", name: "junit-jupiter-api", version: jupiterVersion
+        testCompile group: "org.junit.jupiter", name: "junit-jupiter-params", version: jupiterVersion
+
+        testImplementation "org.awaitility:awaitility:4.0.3"
+
+        testAnnotationProcessor configurations.annotationProcessor
+
+        // Micronaut
+        annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+        annotationProcessor "io.micronaut:micronaut-inject-java"
+        annotationProcessor "io.micronaut:micronaut-validation"
+        implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+        implementation "io.micronaut:micronaut-inject"
+        implementation "io.micronaut:micronaut-validation"
+        implementation "io.micronaut:micronaut-runtime"
+        implementation "io.micronaut:micronaut-management"
+        implementation "io.micronaut.configuration:micronaut-micrometer-registry-prometheus:1.3.1"
+        implementation "io.micronaut.cache:micronaut-cache-core:2.1.0"
+        implementation "io.micronaut:micronaut-http-server-netty"
+        compile "io.micronaut:micronaut-aop:$micronautVersion"
+
+        implementation "io.micrometer:micrometer-core:1.2.2"
+
+        runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+
+        testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+        testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+        testImplementation "org.junit.jupiter:junit-jupiter-api"
+        testImplementation "io.micronaut.test:micronaut-test-junit5:2.2.0"
+        testImplementation "io.micronaut:micronaut-http-client"
+        testImplementation "org.assertj:assertj-core:3.14.0"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+
+        // Micronaut Kafka
+        implementation "io.micronaut.configuration:micronaut-kafka:1.4.0"
+        implementation "io.confluent:kafka-avro-serializer:5.3.1"
+        compile "org.apache.avro:avro:1.9.2"
+
+        // Micronaut Data
+        annotationProcessor "io.micronaut.data:micronaut-data-processor:2.2.0"
+
+        implementation "org.postgresql:postgresql:42.2.5"
+        implementation "io.micronaut.configuration:micronaut-jdbc-hikari:2.2.6"
+        implementation "io.micronaut.sql:micronaut-hibernate-jpa:3.3.2"
+        implementation "io.micronaut.data:micronaut-data-hibernate-jpa:2.2.0"
+        implementation "com.vladmihalcea:hibernate-types-52:2.10.0"
+
+        // Protobuf
+        compile group: "com.googlecode.protobuf-java-format", name: "protobuf-java-format", version: "1.4"
+        compile group: "com.google.protobuf", name: "protobuf-java", version: protoVersion
+        compile(group: "io.grpc", name: "grpc-netty", version: grpcVersion) {
+            exclude group: "com.google.guava"
+        }
+        compile(group: "io.grpc", name: "grpc-protobuf", version: grpcVersion) {
+            exclude group: "com.google.guava"
+        }
+        compile(group: "io.grpc", name: "grpc-stub", version: grpcVersion) {
+            exclude group: "com.google.guava"
+        }
+        compile(group: "me.dinowernli", name: "java-grpc-prometheus", version: "0.3.0") {
+            exclude group: "io.grpc"
+        }
+
+        testCompile(group: "io.grpc", name: "grpc-testing", version: grpcVersion) {
+            exclude group: "com.google.guava"
+        }
+    }
+
+    protobuf {
+        protoc {
+            artifact = "com.google.protobuf:protoc:${protoVersion}"
+        }
+
+        plugins {
+            grpc {
+                artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            }
+        }
+
+        generateProtoTasks {
+            all()*.plugins {
+                grpc {}
+            }
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        maxParallelForks 1
+    }
+
+    tasks.withType(Test) {
+        systemProperty("java.library.path", "libs/")
+    }
+
+    task stage(dependsOn: ["build", "clean"])
+
+    gradle.taskGraph.whenReady {
+        taskGraph ->
+            if (taskGraph.hasTask(stage)) {
+                test.enabled = false
+            }
+    }
+
+    build.mustRunAfter clean
+
+    task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
+        source("${project.rootDir}/protocols/avro/events")
+        outputDir = file("build/generated")
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir generateAvro.outputDir
+
+            }
+            proto {
+                srcDirs = [
+                        file("$rootProject.projectDir/protocols/proto/tweets")
+                ]
+            }
+        }
+    }
+    compileJava.dependsOn(generateAvro)
+
+    shadowJar {
+        mergeServiceFiles()
+    }
+}
+
+wrapper {
+    gradleVersion = "5.0"
+}
+
+mainClassName = "com.georgeoliveira.tweets.Application"
+java {
+    sourceCompatibility = JavaVersion.toVersion("1.8")
+    targetCompatibility = JavaVersion.toVersion("1.8")
+}
+
+
+
+

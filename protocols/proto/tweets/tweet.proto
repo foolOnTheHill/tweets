@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.georgeoliveira.campaigns.proto;
+option java_outer_classname = "TweetProtobuf";
+
+message Tweet {
+    int64 id = 1;
+    int64 sender_id = 2;
+    string text = 3;
+    int64 timestamp = 4;
+}

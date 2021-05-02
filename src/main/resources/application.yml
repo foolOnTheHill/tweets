@@ -1,0 +1,52 @@
+micronaut:
+  application:
+    name: tweets
+  server:
+    port: ${PORT:8080}
+---
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS:`localhost:9092`}
+  consumers:
+    default:
+      specific:
+        avro:
+          reader:
+            true
+      schema:
+        registry:
+          url: ${SCHEMA_REGISTRY_URL:`http://localhost:8081`}
+      key:
+        deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      value:
+        deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+---
+postgres:
+  jdbc:
+    url: ${POSTGRES_JDBC_URL:`jdbc:postgresql://localhost:5432/tweets`}
+  username: ${POSTGRES_USERNAME:postgres}
+  password: ${POSTGRES_PASSWORD:pass}
+---
+datasources:
+  default:
+    url: ${postgres.jdbc.url}
+    username: ${postgres.username}
+    password: ${postgres.password}
+    driverClassName: org.postgresql.Driver
+---
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+    entity-scan:
+      packages:
+        - 'com.georgeoliveira.tweets.common.tweets.models'
+        - 'com.georgeoliveira.tweets.common.tweets.outbox.models'
+---
+jackson:
+  propertyNamingStrategy: SNAKE_CASE
+  deserialization:
+    readUnknownEnumValuesUsingDefaultValue: true

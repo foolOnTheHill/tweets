@@ -1,0 +1,43 @@
+{
+    "type": "record",
+    "name": "Value",
+    "namespace": "com.georgeoliveira.events",
+    "fields": [
+      {
+        "name": "event_id",
+        "doc": "A valid V4 UUID. Each event has a unique id.",
+        "type": [
+          "null",
+          "string"
+        ],
+        "default": null
+      },
+      {
+        "name": "aggregate_id",
+        "doc": "The id of the whole aggregate that had any of the nested entities or the root entity edited.",
+        "type": [
+          "null",
+          "string"
+        ],
+        "default": null
+      },
+      {
+        "name": "type",
+        "doc": "The type of the event, eg. \"create\" or \"update\".",
+        "type": [
+          "null",
+          "string"
+        ],
+        "default": null
+      },
+      {
+        "name": "aggregate",
+        "doc": "The whole aggregate that had any of the nested entities or the root entity edited.",
+        "type": [
+          "null",
+          "string"
+        ],
+        "default": null
+      }
+    ]
+  }
