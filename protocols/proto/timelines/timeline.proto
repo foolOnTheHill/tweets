@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.georgeoliveira.tweets.proto;
+option java_outer_classname = "TimelineProtobuf";
+
+import "tweets/tweet.proto";
+
+message Timeline {
+    int64 user_id = 1;
+    repeated com.georgeoliveira.tweets.proto.Tweet tweets = 2;
+}

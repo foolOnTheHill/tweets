@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class TweetOutboxMapperTest {
   @Test
-  void shouldMapCorreclyToOutbox() {
+  void shouldMapCorrectlyToOutbox() {
     TweetDto tweetDto = TweetFixture.getDefaultDtoInstance();
     TweetOutbox expectedOutbox = TweetOutboxFixture.getDefaultOutboxInstance();
 

@@ -1,9 +1,9 @@
 package com.georgeoliveira.tweets.common.tweets.outbox.fixtures;
 
-import com.georgeoliveira.campaigns.proto.TweetProtobuf;
 import com.georgeoliveira.tweets.common.tweets.fixtures.TweetFixture;
 import com.georgeoliveira.tweets.common.tweets.outbox.dtos.EventType;
 import com.georgeoliveira.tweets.common.tweets.outbox.models.TweetOutbox;
+import com.georgeoliveira.tweets.proto.TweetProtobuf;
 import com.googlecode.protobuf.format.JsonFormat;
 
 public class TweetOutboxFixture {

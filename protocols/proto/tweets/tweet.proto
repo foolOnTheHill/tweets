@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.georgeoliveira.campaigns.proto;
+package com.georgeoliveira.tweets.proto;
 option java_outer_classname = "TweetProtobuf";
 
 message Tweet {

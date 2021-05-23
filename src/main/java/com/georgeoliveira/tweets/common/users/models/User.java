@@ -1,7 +1,13 @@
-package com.georgeoliveira.tweets.common.tweets.models;
+package com.georgeoliveira.tweets.common.users.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -21,4 +27,11 @@ public class User {
   @Id @EqualsAndHashCode.Exclude Long id;
 
   String username;
+
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "follows",
+      joinColumns = {@JoinColumn(name = "followee_id")},
+      inverseJoinColumns = {@JoinColumn(name = "follower_id")})
+  List<User> followers = new ArrayList<>();
 }

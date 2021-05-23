@@ -45,8 +45,15 @@ jpa:
       packages:
         - 'com.georgeoliveira.tweets.common.tweets.models'
         - 'com.georgeoliveira.tweets.common.tweets.outbox.models'
+        - 'com.georgeoliveira.tweets.common.users.models'
 ---
 jackson:
   propertyNamingStrategy: SNAKE_CASE
   deserialization:
     readUnknownEnumValuesUsingDefaultValue: true
+---
+topics:
+  tweets: ${TWEETS_TOPIC:`postgres.public.tweets_outbox`}
+---
+redis:
+  host: ${REDIS_HOST:`redis://localhost/`}

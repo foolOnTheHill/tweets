@@ -23,6 +23,15 @@ kafka:
         deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       value:
         deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+  producers:
+    producer-test:
+      schema:
+        registry:
+          url: http://localhost:8081
+      key:
+        serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value:
+        serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 ---
 postgres:
   jdbc:
@@ -48,8 +57,15 @@ jpa:
       packages:
         - 'com.georgeoliveira.tweets.common.tweets.models'
         - 'com.georgeoliveira.tweets.common.tweets.outbox.models'
+        - 'com.georgeoliveira.tweets.common.users.models'
 ---
 jackson:
   propertyNamingStrategy: SNAKE_CASE
   deserialization:
     readUnknownEnumValuesUsingDefaultValue: true
+---
+topics:
+  tweets: 'postgres.public.tweets_outbox'
+---
+redis:
+  host: 'redis://localhost/'

@@ -121,6 +121,9 @@ allprojects {
         testCompile(group: "io.grpc", name: "grpc-testing", version: grpcVersion) {
             exclude group: "com.google.guava"
         }
+
+        // Redis
+        compile "io.lettuce:lettuce-core:6.1.2.RELEASE"
     }
 
     protobuf {
@@ -170,11 +173,10 @@ allprojects {
         main {
             java {
                 srcDir generateAvro.outputDir
-
             }
             proto {
                 srcDirs = [
-                        file("$rootProject.projectDir/protocols/proto/tweets")
+                        file("$rootProject.projectDir/protocols/proto")
                 ]
             }
         }
