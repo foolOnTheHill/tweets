@@ -28,7 +28,7 @@ public class User {
 
   String username;
 
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "follows",
       joinColumns = {@JoinColumn(name = "followee_id")},
