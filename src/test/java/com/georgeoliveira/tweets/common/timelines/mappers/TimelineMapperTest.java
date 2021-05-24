@@ -30,4 +30,13 @@ public class TimelineMapperTest {
     Assertions.assertArrayEquals(expectedPair.getRight(), pair.getRight());
     Assertions.assertEquals(expectedPair.getLeft(), pair.getLeft());
   }
+
+  @Test
+  void shouldMapCorrectlyFromByteArray() {
+    byte[] timelineByteArray = TimelineFixture.getDefaultUserIdTimelineByteArrayPair().getRight();
+    TimelineDto timelineDto = TimelineMapper.fromByteArray(timelineByteArray).get();
+    TimelineDto expectedTimelineDto = TimelineFixture.getDefaultDtoInstance();
+
+    Assertions.assertEquals(expectedTimelineDto, timelineDto);
+  }
 }

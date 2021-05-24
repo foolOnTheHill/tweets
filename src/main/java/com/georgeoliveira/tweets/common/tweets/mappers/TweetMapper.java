@@ -50,16 +50,7 @@ public class TweetMapper {
     return fromProto(tweetProto);
   }
 
-  @SneakyThrows
-  private static TweetProtobuf.Tweet fromAggregateToProto(String aggregate) throws IOException {
-    JsonFormat jsonFormat = new JsonFormat();
-    TweetProtobuf.Tweet.Builder builder = TweetProtobuf.Tweet.newBuilder();
-    jsonFormat.merge(IOUtils.toInputStream(aggregate, Charset.defaultCharset()), builder);
-    TweetProtobuf.Tweet tweetProto = builder.build();
-    return tweetProto;
-  }
-
-  private static TweetDto fromProto(TweetProtobuf.Tweet tweetProto) {
+  public static TweetDto fromProto(TweetProtobuf.Tweet tweetProto) {
     return TweetDto.builder()
         .id(tweetProto.getId())
         .senderId(tweetProto.getSenderId())
@@ -69,5 +60,14 @@ public class TweetMapper {
                 .atOffset(ZoneOffset.UTC)
                 .toLocalDateTime())
         .build();
+  }
+
+  @SneakyThrows
+  private static TweetProtobuf.Tweet fromAggregateToProto(String aggregate) throws IOException {
+    JsonFormat jsonFormat = new JsonFormat();
+    TweetProtobuf.Tweet.Builder builder = TweetProtobuf.Tweet.newBuilder();
+    jsonFormat.merge(IOUtils.toInputStream(aggregate, Charset.defaultCharset()), builder);
+    TweetProtobuf.Tweet tweetProto = builder.build();
+    return tweetProto;
   }
 }
